@@ -27,7 +27,7 @@ public class CartService {
     }
 
     //needs transaction
-    public List<CartItem> removeItemFrom(String cartId, String itemId) {
+    public List<CartItem> removeItemById(String cartId, String itemId) {
 
         List<CartItem> result = dao.load(cartId).stream()
                 .filter(cartItem -> !itemId.equals(cartItem.id()))

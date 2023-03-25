@@ -1,5 +1,6 @@
 package com.interview.trackuint.domain;
 
-//needs validation
-public record CartItem(String id) {
+import jakarta.validation.constraints.NotBlank;
+
+public record CartItem(@NotBlank String id) {
 }
