@@ -41,6 +41,16 @@ public class CartServiceTest {
     }
 
     @Test
+    void testAddItem_addSecond() {
+        CartItem abc = new CartItem("abc");
+        CartItem xyz = new CartItem("xyz");
+        when(dao.load("1")).thenReturn(List.of(abc, xyz));
+        List<CartItem> items = List.of(abc, new CartItem(xyz.id(), 2));
+        assertThat(cartService.addItem("1", xyz)).containsAll(items);
+        verify(dao).save("1", items);
+    }
+
+    @Test
     void testRemoveItem() {
         CartItem abc = new CartItem("abc");
         CartItem xyz = new CartItem("xyz");

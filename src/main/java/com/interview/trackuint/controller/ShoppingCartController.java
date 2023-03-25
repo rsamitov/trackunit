@@ -20,7 +20,7 @@ public class ShoppingCartController {
         return cartService.getAllItems(cartId);
     }
 
-    @PutMapping("/{cartId}/item")
+    @PostMapping("/{cartId}/item")
     public List<CartItem> add(@PathVariable String cartId,
                               @Valid @RequestBody CartItem cartItem) {
         return cartService.addItem(cartId, cartItem);

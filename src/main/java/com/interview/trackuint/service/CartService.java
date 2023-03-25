@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,16 @@ public class CartService {
     //needs transaction
     public List<CartItem> addItem(String cartId, CartItem cartItem) {
         List<CartItem> result = new LinkedList<>(dao.load(cartId));
-        result.add(cartItem);
+        Optional<CartItem> alreadyInCartItem = result.stream()
+                .filter(existing -> existing.id().equals(cartItem.id()))
+                .findFirst();
+        alreadyInCartItem.ifPresent(existing -> {
+            result.remove(existing);
+            result.add(new CartItem(cartItem.id(), existing.quantity() + cartItem.quantity()));
+        });
+        if (alreadyInCartItem.isEmpty()) {
+            result.add(cartItem);
+        }
         dao.save(cartId, result);
         return result;
     }

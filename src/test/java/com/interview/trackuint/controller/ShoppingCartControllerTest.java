@@ -42,8 +42,8 @@ public class ShoppingCartControllerTest {
         when(service.addItem("1", new CartItem("abc")))
                 .thenReturn(List.of(new CartItem("abc"), new CartItem("xyz")));
 
-        mockMvc.perform(put("/cart/1/item").contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":\"abc\"}"))
+        mockMvc.perform(post("/cart/1/item").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"id\":\"abc\", \"quantity\":1}"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{\"id\":\"abc\"},{\"id\":\"xyz\"}]"));
